@@ -2,13 +2,36 @@ package com.kirsch.lennard.bakingapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecipeRecyclerViewAdapter.ItemClickListener {
+
+    RecipeRecyclerViewAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setUpUI();
+
+
+    }
+
+    private void setUpUI(){
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_recipe_main);
+        String[] data = new String[1];
+        int numberOfColumns = 1;
+        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+        mAdapter = new RecipeRecyclerViewAdapter(this, data);
+        mAdapter.setmClickListener(this);
+        recyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        //TODO
     }
 }
 
