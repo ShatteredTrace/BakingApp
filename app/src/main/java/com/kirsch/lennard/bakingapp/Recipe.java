@@ -1,18 +1,20 @@
 package com.kirsch.lennard.bakingapp;
 
+import java.util.ArrayList;
+
 public class Recipe {
     int id;
     String name;
-    Ingredient[] ingredients;
-    RecipeStep[] recipeSteps;
+    ArrayList<Ingredient> ingredients;
+    ArrayList<RecipeStep> steps;
     int servings;
     String image;
 
-    public Recipe(int id, String name, Ingredient[] ingredients, RecipeStep[] recipeSteps, int servings, String image){
+    public Recipe(int id, String name, ArrayList<Ingredient> ingredients, ArrayList<RecipeStep> steps, int servings, String image){
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
-        this.recipeSteps = recipeSteps;
+        this.steps = steps;
         this.servings = servings;
         this.image = image;
     }
@@ -35,20 +37,20 @@ public class Recipe {
         this.name = name;
     }
 
-    public Ingredient[] getIngredients() {
+    public ArrayList<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(Ingredient[] ingredients) {
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public RecipeStep[] getRecipeSteps() {
-        return recipeSteps;
+    public ArrayList<RecipeStep> getSteps() {
+        return steps;
     }
 
-    public void setRecipeSteps(RecipeStep[] recipeSteps) {
-        this.recipeSteps = recipeSteps;
+    public void setSteps(ArrayList<RecipeStep> steps) {
+        this.steps = steps;
     }
 
     public int getServings() {

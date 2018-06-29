@@ -1,19 +1,19 @@
 package com.kirsch.lennard.bakingapp;
 
 public class Ingredient {
-    int quantity;
+    float quantity;
     String measure;
-    String ingredientName;
+    String ingredient;
 
-    public Ingredient(int quantity, String measure, String ingredientName){
+    public Ingredient(float quantity, String measure, String ingredient){
         this.quantity = quantity;
         this.measure = measure;
-        this.ingredientName = ingredientName;
+        this.ingredient = ingredient;
     }
 
     public Ingredient(){}
 
-    public int getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
@@ -29,11 +29,11 @@ public class Ingredient {
         this.measure = measure;
     }
 
-    public String getIngredientName() {
-        return ingredientName;
+    public String getIngredient() {
+        return ingredient;
     }
 
-    public void setIngredientName(String ingredientName) {
-        this.ingredientName = ingredientName;
+    public void setIngredient(String ingredient) {
+        this.ingredient = ingredient;
     }
 }

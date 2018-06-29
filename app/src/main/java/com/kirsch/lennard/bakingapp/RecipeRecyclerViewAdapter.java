@@ -9,14 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder>{
-    private String[] mData = new String[0];
+
+    private Recipe[] recipes = new Recipe[0];
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
-    RecipeRecyclerViewAdapter(Context context, String[] data){
+    RecipeRecyclerViewAdapter(Context context, Recipe[] recipes){
         this.mInflater = LayoutInflater.from(context);
-        this.mData = data;
+        this.recipes = recipes;
     }
 
     @NonNull
@@ -28,12 +31,17 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.recipeTextView.setText(mData[position]);
+        holder.recipeTextView.setText(recipes[position].name);
+        if(recipes[position].image.length() > 0 && recipes[position].image != null) {
+            Picasso.get().load(recipes[position].image).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(holder.recipeImageView);
+        } else {
+            Picasso.get().load(R.drawable.placeholder).into(holder.recipeImageView);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mData.length;
+        return recipes.length;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -54,8 +62,8 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
         }
     }
 
-    String getItem(int id){
-        return mData[id];
+    Recipe getItem(int id){
+        return recipes[id];
     }
 
     void setmClickListener(ItemClickListener itemClickListener){
