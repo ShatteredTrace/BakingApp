@@ -1,37 +1,76 @@
 package com.kirsch.lennard.bakingapp;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements RecipeRecyclerViewAdapter.ItemClickListener {
+    @BindView(R.id.recycler_recipe_main) RecyclerView recyclerView;
 
-    RecipeRecyclerViewAdapter mAdapter;
+    public static final String RECIPE_SOURCE = "http://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+    public static RequestQueue mRequestQueue;
+
+    static RecipeRecyclerViewAdapter mAdapter;
+    Recipe[] recipes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         setUpUI();
 
 
     }
 
     private void setUpUI(){
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_recipe_main);
-        String[] data = new String[1];
-        int numberOfColumns = 1;
-        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-        mAdapter = new RecipeRecyclerViewAdapter(this, data);
-        mAdapter.setmClickListener(this);
-        recyclerView.setAdapter(mAdapter);
+        ButterKnife.bind(this);
+        getRecipes(this);
+
     }
 
     @Override
     public void onItemClick(View view, int position) {
         //TODO
+    }
+
+    public void getRecipes(final Context context){
+        mRequestQueue = Volley.newRequestQueue(context);
+        GsonRequest<Recipe[]> recipesRequest = new GsonRequest<>(RECIPE_SOURCE, Recipe[].class,
+                new Response.Listener<Recipe[]>() {
+                    @Override
+                    public void onResponse(Recipe[] response) {
+                        //TODO deal with Response
+                        recipes = response;
+                        int numberOfColumns = 1;
+                        recyclerView.setLayoutManager(new GridLayoutManager(context, numberOfColumns));
+                        mAdapter = new RecipeRecyclerViewAdapter(context, recipes);
+                        mAdapter.setmClickListener(MainActivity.this);
+                        recyclerView.setAdapter(mAdapter);
+                        Toast.makeText(context, "Adapter should be full", Toast.LENGTH_SHORT).show();
+                    }
+
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //TODO deal with Error
+                recipes = new Recipe[0];
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+        mRequestQueue.add(recipesRequest);
     }
 }
 
