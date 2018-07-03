@@ -25,7 +25,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view  = mInflater.inflate(R.layout.recyclerview_item, parent, false);
+        View view  = mInflater.inflate(R.layout.main_recyclerview_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -68,9 +68,5 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
     void setmClickListener(ItemClickListener itemClickListener){
         this.mClickListener = itemClickListener;
-    }
-
-    public interface ItemClickListener{
-        void onItemClick(View view, int position);
     }
 }

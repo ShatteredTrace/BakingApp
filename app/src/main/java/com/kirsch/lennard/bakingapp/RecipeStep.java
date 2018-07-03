@@ -1,6 +1,9 @@
 package com.kirsch.lennard.bakingapp;
 
-public class RecipeStep {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class RecipeStep implements Parcelable{
     int id;
     String shortDescription;
     String description;
@@ -13,6 +16,40 @@ public class RecipeStep {
         this.description = description;
         this.videoURL = videoURL;
         this.thumbnailURL = thumbnailURL;
+    }
+
+    public RecipeStep(Parcel parcel){
+        this.id = parcel.readInt();
+        this.shortDescription = parcel.readString();
+        this.description = parcel.readString();
+        this.videoURL = parcel.readString();
+        this.thumbnailURL = parcel.readString();
+    }
+
+    public static final Creator<RecipeStep> CREATOR = new Creator<RecipeStep>() {
+        @Override
+        public RecipeStep createFromParcel(Parcel in) {
+            return new RecipeStep(in);
+        }
+
+        @Override
+        public RecipeStep[] newArray(int size) {
+            return new RecipeStep[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(shortDescription);
+        dest.writeString(description);
+        dest.writeString(videoURL);
+        dest.writeString(thumbnailURL);
     }
 
     public RecipeStep(){}

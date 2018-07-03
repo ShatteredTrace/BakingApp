@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements RecipeRecyclerVie
                 new Response.Listener<Recipe[]>() {
                     @Override
                     public void onResponse(Recipe[] response) {
-                        //TODO deal with Response
                         recipes = response;
                         int numberOfColumns = 1;
                         recyclerView.setLayoutManager(new GridLayoutManager(context, numberOfColumns));
@@ -65,9 +64,8 @@ public class MainActivity extends AppCompatActivity implements RecipeRecyclerVie
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //TODO deal with Error
                 recipes = new Recipe[0];
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
         mRequestQueue.add(recipesRequest);
@@ -81,7 +79,7 @@ TODO #1 App is written solely in the Java Programming Language
 TODO #2 App utilizes stable release versions of all libraries, Gradle, and Android Studio.
 
 GENERAL APP USAGE
-TODO #3 App should display recipes from provided network resource.
+COMPLETED #3 App should display recipes from provided network resource.
 
 TODO #4 App should allow navigation between individual recipes and recipe steps.
 
