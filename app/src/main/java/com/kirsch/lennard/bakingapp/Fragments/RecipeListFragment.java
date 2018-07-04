@@ -17,8 +17,8 @@ import com.kirsch.lennard.bakingapp.R;
 import com.kirsch.lennard.bakingapp.Util.ItemClickListener;
 
 public class RecipeListFragment extends Fragment{
+    public static final String RECIPE_ID = "recipeID";
 
-    ItemClickListener mCallback;
     RecipeListRecyclerViewAdapter mAdapter;
     Recipe recipe;
 
@@ -27,6 +27,10 @@ public class RecipeListFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if(savedInstanceState != null){
+            recipe = savedInstanceState.getParcelable(RECIPE_ID);
+        }
+
         final View rootView = inflater.inflate(R.layout.fragment_recipe_list, container, false);
         int numberOfColumns = 1;
         RecyclerView recyclerView = rootView.findViewById(R.id.recipe_list_fragment_recycler);
@@ -45,5 +49,10 @@ public class RecipeListFragment extends Fragment{
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable(RECIPE_ID, recipe);
     }
 }
