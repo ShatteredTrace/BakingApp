@@ -4,9 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Ingredient implements Parcelable{
-    float quantity;
-    String measure;
-    String ingredient;
+    public float quantity;
+    public String measure;
+    public String ingredient;
 
     public Ingredient(float quantity, String measure, String ingredient){
         this.quantity = quantity;

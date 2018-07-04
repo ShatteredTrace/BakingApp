@@ -1,10 +1,12 @@
 package com.kirsch.lennard.bakingapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,11 +17,13 @@ import com.android.volley.toolbox.Volley;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity implements RecipeRecyclerViewAdapter.ItemClickListener {
+public class MainActivity extends AppCompatActivity implements ItemClickListener {
     @BindView(R.id.recycler_recipe_main) RecyclerView recyclerView;
 
     public static final String RECIPE_SOURCE = "http://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+    public static final String RECIPE_ID = "recipeID";
     public static RequestQueue mRequestQueue;
 
     static RecipeRecyclerViewAdapter mAdapter;
@@ -31,19 +35,26 @@ public class MainActivity extends AppCompatActivity implements RecipeRecyclerVie
         setContentView(R.layout.activity_main);
 
         setUpUI();
-
-
     }
 
     private void setUpUI(){
         ButterKnife.bind(this);
+        int numberOfColumns = 1;
+        recyclerView.setAdapter(null);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
         getRecipes(this);
 
     }
 
     @Override
     public void onItemClick(View view, int position) {
-        //TODO
+        Toast.makeText(this, "test", Toast.LENGTH_LONG).show();
+        Bundle b = new Bundle();
+        b.putParcelable(RECIPE_ID, recipes[position]);
+
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     public void getRecipes(final Context context){
@@ -53,12 +64,13 @@ public class MainActivity extends AppCompatActivity implements RecipeRecyclerVie
                     @Override
                     public void onResponse(Recipe[] response) {
                         recipes = response;
-                        int numberOfColumns = 1;
-                        recyclerView.setLayoutManager(new GridLayoutManager(context, numberOfColumns));
+                        Log.i("LOG","Now setting up adapter");
+
                         mAdapter = new RecipeRecyclerViewAdapter(context, recipes);
-                        mAdapter.setmClickListener(MainActivity.this);
+                        //Adapter.setmClickListener(MainActivity.this);
                         recyclerView.setAdapter(mAdapter);
-                        Toast.makeText(context, "Adapter should be full", Toast.LENGTH_SHORT).show();
+                        Log.i("LOG","Done");
+                       // Toast.makeText(context, "Adapter should be full", Toast.LENGTH_SHORT).show();
                     }
 
                 }, new Response.ErrorListener() {

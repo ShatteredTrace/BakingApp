@@ -25,8 +25,8 @@ public class Recipe implements Parcelable{
     public Recipe(Parcel parcel){
         this.id = parcel.readInt();
         this.name = parcel.readString();
-        this.ingredients = parcel.readArrayList(null);
-        this.steps = parcel.readArrayList(null);
+        this.ingredients = parcel.readArrayList(Ingredient.class.getClassLoader());
+        this.steps = parcel.readArrayList(RecipeStep.class.getClassLoader());
         this.servings = parcel.readInt();
         this.image = parcel.readString();
     }

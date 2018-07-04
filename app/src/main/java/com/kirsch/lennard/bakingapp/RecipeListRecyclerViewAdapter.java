@@ -8,16 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class RecipeListRecyclerViewAdapter extends RecyclerView.Adapter<RecipeListRecyclerViewAdapter.ViewHolder> {
 
     private Recipe recipe;
-    private RecipeStep[] recipeSteps = new RecipeStep[0];
+    private ArrayList<RecipeStep> recipeSteps;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
-    RecipeListRecyclerViewAdapter(Context context, Recipe[] recipes, Recipe recipe){
+    RecipeListRecyclerViewAdapter(Context context, ArrayList<RecipeStep> recipeSteps, Recipe recipe){
         this.mInflater = LayoutInflater.from(context);
-        this.recipeSteps = recipeSteps;
+        this.recipeSteps = this.recipeSteps;
         this.recipe = recipe;
     }
 
@@ -30,36 +32,25 @@ public class RecipeListRecyclerViewAdapter extends RecyclerView.Adapter<RecipeLi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //TODO NOW
-    }
+            holder.recipeStepsTextView.setText(recipeSteps.get(position).shortDescription);
 
+    }
 
     @Override
     public int getItemCount() {
-        return recipeSteps.length;
+        return recipeSteps.size();
     }
 
-    public class ViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends  RecyclerView.ViewHolder {
         TextView recipeStepsTextView;
 
         ViewHolder(View itemView){
             super(itemView);
             recipeStepsTextView = (TextView) itemView.findViewById(R.id.recipe_list_recycler_recipe_text);
         }
-
-        @Override
-        public void onClick(View view) {
-            if(mClickListener != null){
-                mClickListener.onItemClick(view, getAdapterPosition());
-            }
-        }
     }
 
     RecipeStep getItem(int id){
-        return recipeSteps[id];
-    }
-
-    void setmClickListener(ItemClickListener itemClickListener){
-        this.mClickListener = itemClickListener;
+        return recipeSteps.get(id);
     }
 }
