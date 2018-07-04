@@ -1,4 +1,4 @@
-package com.kirsch.lennard.bakingapp;
+package com.kirsch.lennard.bakingapp.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,10 +14,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.kirsch.lennard.bakingapp.Util.GsonRequest;
+import com.kirsch.lennard.bakingapp.Util.ItemClickListener;
+import com.kirsch.lennard.bakingapp.Objects.Recipe;
+import com.kirsch.lennard.bakingapp.R;
+import com.kirsch.lennard.bakingapp.Adapters.RecipeRecyclerViewAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements ItemClickListener {
     @BindView(R.id.recycler_recipe_main) RecyclerView recyclerView;
@@ -93,7 +97,7 @@ TODO #2 App utilizes stable release versions of all libraries, Gradle, and Andro
 GENERAL APP USAGE
 COMPLETED #3 App should display recipes from provided network resource.
 
-TODO #4 App should allow navigation between individual recipes and recipe steps.
+COMPLETED #4 App should allow navigation between individual recipes and recipe steps.
 
 TODO #5 App uses RecyclerView and can handle recipe steps that include videos or images.
 

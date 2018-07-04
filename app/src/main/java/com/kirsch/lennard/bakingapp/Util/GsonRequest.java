@@ -1,4 +1,4 @@
-package com.kirsch.lennard.bakingapp;
+package com.kirsch.lennard.bakingapp.Util;
 
 import android.widget.Toast;
 

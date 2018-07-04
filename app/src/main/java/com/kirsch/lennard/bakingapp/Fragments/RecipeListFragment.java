@@ -1,4 +1,4 @@
-package com.kirsch.lennard.bakingapp;
+package com.kirsch.lennard.bakingapp.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,10 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.kirsch.lennard.bakingapp.Adapters.RecipeListRecyclerViewAdapter;
+import com.kirsch.lennard.bakingapp.Objects.Recipe;
+import com.kirsch.lennard.bakingapp.R;
+import com.kirsch.lennard.bakingapp.Util.ItemClickListener;
 
 public class RecipeListFragment extends Fragment{
 

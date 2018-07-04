@@ -1,9 +1,13 @@
-package com.kirsch.lennard.bakingapp;
+package com.kirsch.lennard.bakingapp.Activities;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.kirsch.lennard.bakingapp.Objects.Recipe;
+import com.kirsch.lennard.bakingapp.R;
+import com.kirsch.lennard.bakingapp.Fragments.RecipeListFragment;
 
 public class DetailActivity extends AppCompatActivity{
     Recipe recipe;
@@ -24,13 +28,6 @@ public class DetailActivity extends AppCompatActivity{
             FragmentManager fragmentManager = getSupportFragmentManager();
 
             fragmentManager.beginTransaction().add(R.id.recipe_list_container, fragment).commit();
-           /* RecipeDetailFragment detailFragment = new RecipeDetailFragment();
-            detailFragment.setRecipe(new Recipe());
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
-            fragmentManager.beginTransaction().add(R.id.recipe_detail_container, detailFragment).commit();
-                    */
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.kirsch.lennard.bakingapp;
+package com.kirsch.lennard.bakingapp.Objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,12 +6,12 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 public class Recipe implements Parcelable{
-    int id;
-    String name;
-    ArrayList<Ingredient> ingredients;
-    ArrayList<RecipeStep> steps;
-    int servings;
-    String image;
+    public int id;
+    public String name;
+    public ArrayList<Ingredient> ingredients;
+    public ArrayList<RecipeStep> steps;
+    public int servings;
+    public String image;
 
     public Recipe(int id, String name, ArrayList<Ingredient> ingredients, ArrayList<RecipeStep> steps, int servings, String image){
         this.id = id;

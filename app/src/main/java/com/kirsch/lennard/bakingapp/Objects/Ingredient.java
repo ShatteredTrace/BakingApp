@@ -1,4 +1,4 @@
-package com.kirsch.lennard.bakingapp;
+package com.kirsch.lennard.bakingapp.Objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -1,14 +1,14 @@
-package com.kirsch.lennard.bakingapp;
+package com.kirsch.lennard.bakingapp.Objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class RecipeStep implements Parcelable{
-    int id;
-    String shortDescription;
-    String description;
-    String videoURL;
-    String thumbnailURL;
+    public int id;
+    public String shortDescription;
+    public String description;
+    public String videoURL;
+    public String thumbnailURL;
 
     public RecipeStep(int id, String shortDescription, String description, String videoURL, String thumbnailURL){
         this.id = id;

@@ -1,21 +1,21 @@
-package com.kirsch.lennard.bakingapp;
+package com.kirsch.lennard.bakingapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.kirsch.lennard.bakingapp.Activities.DetailActivity;
+import com.kirsch.lennard.bakingapp.Activities.MainActivity;
+import com.kirsch.lennard.bakingapp.Objects.Recipe;
+import com.kirsch.lennard.bakingapp.R;
 import com.squareup.picasso.Picasso;
-
-import timber.log.Timber;
 
 public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder>{
 
@@ -24,7 +24,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     private LayoutInflater mInflater;
     //private ItemClickListener mClickListener;
 
-    RecipeRecyclerViewAdapter(Context context, Recipe[] recipes){
+    public RecipeRecyclerViewAdapter(Context context, Recipe[] recipes){
         this.mInflater = LayoutInflater.from(context);
         this.recipes = recipes;
         this.mContext = context;
@@ -68,26 +68,15 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
         ImageView recipeImageView;
         TextView recipeTextView;
 
-        ViewHolder(View itemView){
+        public ViewHolder(View itemView){
             super(itemView);
             recipeTextView = (TextView) itemView.findViewById(R.id.recycler_recipe_name);
             recipeImageView = (ImageView) itemView.findViewById(R.id.recycler_recipe_image);
         }
-
-      /*  @Override
-        public void onClick(View view) {
-            Log.i("LOG","message");
-            if (mClickListener != null){
-                mClickListener.onItemClick(view, getAdapterPosition());
-            }
-        } */
     }
 
-    Recipe getItem(int id){
+    public Recipe getItem(int id){
         return recipes[id];
     }
 
-  /*  void setmClickListener(ItemClickListener itemClickListener){
-        this.mClickListener = itemClickListener;
-    } */
 }
