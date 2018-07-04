@@ -3,6 +3,7 @@ package com.kirsch.lennard.bakingapp;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ public class RecipeListRecyclerViewAdapter extends RecyclerView.Adapter<RecipeLi
     private Recipe recipe;
     private ArrayList<RecipeStep> recipeSteps;
     private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
 
     RecipeListRecyclerViewAdapter(Context context, ArrayList<RecipeStep> recipeSteps, Recipe recipe){
         this.mInflater = LayoutInflater.from(context);
@@ -32,7 +32,7 @@ public class RecipeListRecyclerViewAdapter extends RecyclerView.Adapter<RecipeLi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if(position == 0){
+        if(position== 0){
             String ingredients = "You will need: \n";
             for (Ingredient i : recipe.ingredients){
                 if(i.quantity == Math.ceil(i.quantity)){
@@ -41,28 +41,27 @@ public class RecipeListRecyclerViewAdapter extends RecyclerView.Adapter<RecipeLi
                     ingredients += i.quantity + " " + i.measure + " of " + i.ingredient + "\n";
                 }
             }
-            holder.recipeIngredientsTextView.setText(ingredients);
+            holder.recipeStepsTextView.setBackgroundResource(android.R.color.transparent);
+            holder.recipeStepsTextView.setGravity(Gravity.START);
+
+            holder.recipeStepsTextView.setText(ingredients);
         }
         else {
-            holder.recipeIngredientsTextView.setVisibility(View.GONE);
+            holder.recipeStepsTextView.setText(recipeSteps.get(position - 1).shortDescription);
         }
-            holder.recipeStepsTextView.setText(recipeSteps.get(position).shortDescription);
-
     }
 
     @Override
     public int getItemCount() {
-        return recipeSteps.size();
+        return recipeSteps.size() + 1;
     }
 
     public class ViewHolder extends  RecyclerView.ViewHolder {
         TextView recipeStepsTextView;
-        TextView recipeIngredientsTextView;
 
         ViewHolder(View itemView){
             super(itemView);
             recipeStepsTextView = (TextView) itemView.findViewById(R.id.recipe_list_recycler_recipe_text);
-            recipeIngredientsTextView = itemView.findViewById(R.id.recipe_list_fragment_ingredients_textView);
         }
     }
 
