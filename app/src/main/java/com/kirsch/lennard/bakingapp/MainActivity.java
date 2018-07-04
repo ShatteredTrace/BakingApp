@@ -106,7 +106,7 @@ TODO #8 Application uses Exoplayer to display videos.
 
 TODO #9 Application properly initializes and releases video assets when appropriate.
 
-TODO #10 Application should properly retrieve media assets from the provided network links. It should properly handle network requests.
+COMPLETED #10 Application should properly retrieve media assets from the provided network links. It should properly handle network requests.
 
 TODO #11 Application makes use of Espresso to test aspects of the UI.
 

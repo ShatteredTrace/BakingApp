@@ -19,7 +19,7 @@ public class RecipeListRecyclerViewAdapter extends RecyclerView.Adapter<RecipeLi
 
     RecipeListRecyclerViewAdapter(Context context, ArrayList<RecipeStep> recipeSteps, Recipe recipe){
         this.mInflater = LayoutInflater.from(context);
-        this.recipeSteps = this.recipeSteps;
+        this.recipeSteps = recipeSteps;
         this.recipe = recipe;
     }
 
@@ -32,6 +32,20 @@ public class RecipeListRecyclerViewAdapter extends RecyclerView.Adapter<RecipeLi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        if(position == 0){
+            String ingredients = "You will need: \n";
+            for (Ingredient i : recipe.ingredients){
+                if(i.quantity == Math.ceil(i.quantity)){
+                    ingredients += "- " + (int) i.quantity + " " +  i.measure + " of "+ i.ingredient + "\n";
+                } else {
+                    ingredients += i.quantity + " " + i.measure + " of " + i.ingredient + "\n";
+                }
+            }
+            holder.recipeIngredientsTextView.setText(ingredients);
+        }
+        else {
+            holder.recipeIngredientsTextView.setVisibility(View.GONE);
+        }
             holder.recipeStepsTextView.setText(recipeSteps.get(position).shortDescription);
 
     }
@@ -43,10 +57,12 @@ public class RecipeListRecyclerViewAdapter extends RecyclerView.Adapter<RecipeLi
 
     public class ViewHolder extends  RecyclerView.ViewHolder {
         TextView recipeStepsTextView;
+        TextView recipeIngredientsTextView;
 
         ViewHolder(View itemView){
             super(itemView);
             recipeStepsTextView = (TextView) itemView.findViewById(R.id.recipe_list_recycler_recipe_text);
+            recipeIngredientsTextView = itemView.findViewById(R.id.recipe_list_fragment_ingredients_textView);
         }
     }
 

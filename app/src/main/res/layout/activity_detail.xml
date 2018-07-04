@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/recipe_list_fragment"
-    android:name="com.kirsch.lennard.bakingapp.RecipeListFragment"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-</fragment>
+    android:orientation="vertical"
+    android:layout_margin="10dp">
+    <FrameLayout
+        android:id="@+id/recipe_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+</RelativeLayout>

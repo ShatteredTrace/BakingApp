@@ -17,6 +17,13 @@ public class DetailActivity extends AppCompatActivity{
             Intent intent = getIntent();
             Bundle b = intent.getBundleExtra("bundle");
             recipe = b.getParcelable(MainActivity.RECIPE_ID);
+
+            RecipeListFragment fragment = new RecipeListFragment();
+            fragment.setRecipe(recipe);
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            fragmentManager.beginTransaction().add(R.id.recipe_list_container, fragment).commit();
            /* RecipeDetailFragment detailFragment = new RecipeDetailFragment();
             detailFragment.setRecipe(new Recipe());
 
