@@ -1,10 +1,12 @@
 package com.kirsch.lennard.bakingapp.Fragments;
 
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -19,6 +22,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -42,11 +47,12 @@ import com.kirsch.lennard.bakingapp.Activities.DetailActivity;
 import com.kirsch.lennard.bakingapp.Objects.RecipeStep;
 import com.kirsch.lennard.bakingapp.R;
 
-import timber.log.Timber;
-
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventListener{
+    private final String STATE_RESUME_WINDOW = "resumeWindow";
+    private final String STATE_RESUME_POSITION = "resumePosition";
+    private final String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
     public static final String RECIPESTEP_ID = "recipeStepID";
     private static final String TAG = RecipeDetailFragment.class.getSimpleName();
 
@@ -57,6 +63,11 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
     private PlaybackStateCompat.Builder mStateBuilder;
     private NotificationManager mNotificationManager;
     private Context mContext;
+    private boolean mExoPlayerFullscreen = false;
+    private int mResumeWindow;
+    private long mResumePosition;
+    private Dialog mFullScreenDialog;
+    private FrameLayout mExoFrame;
 
     //Mandatory constructor for instantiating the fragment
     public RecipeDetailFragment(){
@@ -72,23 +83,25 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if(savedInstanceState != null){
             recipeStep = savedInstanceState.getParcelable(RECIPESTEP_ID);
+            mResumeWindow = savedInstanceState.getInt(STATE_RESUME_WINDOW);
+            mResumePosition = savedInstanceState.getLong(STATE_RESUME_POSITION);
+            mExoPlayerFullscreen = savedInstanceState.getBoolean(STATE_PLAYER_FULLSCREEN);
         }
 
         mContext = getContext();
         View rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
 
-        mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.playerView);
+        mExoFrame = rootView.findViewById(R.id.exoplayer_frame);
+
+        mPlayerView = rootView.findViewById(R.id.playerView);
         mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.placeholder));
 
         TextView recipeStepInstruction = rootView.findViewById(R.id.recipe_detail_instruction_textview);
         recipeStepInstruction.setText(recipeStep.description);
 
         if(recipeStep.videoURL != null && !recipeStep.videoURL.equals("")){
-            Log.i("a", "start Player Init");
             initializeMediaSession();
-            Log.i("a", "Passed init Media Session");
             initializePlayer();
-            Log.i("a", "Passed init Player");
         }
 
 
@@ -128,6 +141,7 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
             Uri mediaUri = Uri.parse(recipeStep.getVideoURL());
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     mContext, userAgent), new DefaultExtractorsFactory(), null, null);
+
             mExoPlayer.prepare(mediaSource);
             mExoPlayer.setPlayWhenReady(true);
         }
@@ -140,9 +154,39 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
         mExoPlayer = null;
     }
 
+    private void initFullscreenDialog(){
+        mFullScreenDialog = new Dialog(mContext, android.R.style.Theme_Black_NoTitleBar_Fullscreen){
+            @Override
+            public void onBackPressed() {
+                if(mExoPlayerFullscreen){
+                    closeFullScreenDialog();
+                }
+                super.onBackPressed();
+            }
+        };
+    }
+
+    private void openFullscreenDialog(){
+        ((ViewGroup) mPlayerView.getParent()).removeView(mPlayerView);
+        mFullScreenDialog.addContentView(mPlayerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mExoPlayerFullscreen = true;
+        mFullScreenDialog.show();
+
+    }
+
+    private void closeFullScreenDialog(){
+        ((ViewGroup) mPlayerView.getParent()).removeView(mPlayerView);
+        mExoFrame.addView(mPlayerView);
+        mExoPlayerFullscreen = false;
+        mFullScreenDialog.dismiss();
+    }
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putParcelable(RECIPESTEP_ID, recipeStep);
+        outState.putInt(STATE_RESUME_WINDOW, mResumeWindow);
+        outState.putLong(STATE_RESUME_POSITION, mResumePosition);
+        outState.putBoolean(STATE_PLAYER_FULLSCREEN, mExoPlayerFullscreen);
     }
 
     public RecipeStep getRecipeStep() {
@@ -225,6 +269,21 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
         mNotificationManager = (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
         mNotificationManager.notify(0, builder.build());
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            initFullscreenDialog();
+            openFullscreenDialog();
+            initializeMediaSession();
+            initializePlayer();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            closeFullScreenDialog();
+            initializeMediaSession();
+            initializePlayer();
+        }
     }
 
     @Override

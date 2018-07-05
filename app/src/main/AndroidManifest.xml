@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.DetailActivity" />
-        <activity android:name=".Activities.RecipeStepDetailActivity"/>
+        <activity android:name=".Activities.RecipeStepDetailActivity"
+            android:configChanges="orientation"/>
 
         <receiver android:name=".Fragments.RecipeDetailFragment$MediaReceiver">
             <intent-filter>
