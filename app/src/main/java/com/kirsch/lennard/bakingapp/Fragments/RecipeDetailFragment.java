@@ -2,6 +2,7 @@ package com.kirsch.lennard.bakingapp.Fragments;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -52,7 +53,7 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
     private RecipeStep recipeStep;
     private SimpleExoPlayer mExoPlayer;
     private SimpleExoPlayerView mPlayerView;
-    private MediaSessionCompat mMediaSession;
+    private static MediaSessionCompat mMediaSession;
     private PlaybackStateCompat.Builder mStateBuilder;
     private NotificationManager mNotificationManager;
     private Context mContext;
@@ -207,7 +208,8 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
         NotificationCompat.Action restartAction = new NotificationCompat.Action(R.drawable.exo_controls_previous, "Restart",
                 MediaButtonReceiver.buildMediaButtonPendingIntent(mContext, PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS));
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext, DetailActivity.class), 0);
+        Intent intent = new Intent(mContext, DetailActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this.getContext(), 0, intent, 0);
 
         builder.setContentTitle("Have Fun Baking")
                 .setContentText("Press play to continue the Video")
@@ -249,6 +251,17 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
         @Override
         public void onSkipToPrevious() {
             mExoPlayer.seekTo(0);
+        }
+    }
+
+    public static class MediaReceiver extends BroadcastReceiver{
+        public MediaReceiver(){
+
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            MediaButtonReceiver.handleIntent(mMediaSession, intent);
         }
     }
 }

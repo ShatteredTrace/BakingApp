@@ -17,17 +17,19 @@ public class DetailActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+
+
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             Bundle b = intent.getBundleExtra("bundle");
             recipe = b.getParcelable(MainActivity.RECIPE_ID);
+            FragmentManager fragmentManager = getSupportFragmentManager();
 
             RecipeListFragment fragment = new RecipeListFragment();
             fragment.setRecipe(recipe);
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
             fragmentManager.beginTransaction().add(R.id.recipe_list_container, fragment).commit();
+
         }
     }
 }
