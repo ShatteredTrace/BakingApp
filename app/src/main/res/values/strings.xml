@@ -2,4 +2,12 @@
     <string name="app_name">BakingApp</string>
     <string name="appwidget_text">Ingredients</string>
     <string name="add_widget">Add widget</string>
+    <string name="ingredients_start">You will need:</string>
+    <string name="of">of</string>
+    <string name="AppName">BakingApp</string>
+    <string name="Pause">Pause</string>
+    <string name="Play">Play</string>
+    <string name="have_fun">Have Fun Baking</string>
+    <string name="press_play">Press play to continue the Video</string>
+    <string name="ingredients">Ingredients</string>
 </resources>

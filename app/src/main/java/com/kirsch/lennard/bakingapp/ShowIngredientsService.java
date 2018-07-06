@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.kirsch.lennard.bakingapp.Activities.MainActivity;
+
 public class ShowIngredientsService extends IntentService {
     public static final String ACTION_UPDATE_INGREDIENTS_WIDGET = "com.lennard.kirsch.bakingapp.action.update_ingredients";
 
@@ -18,7 +20,7 @@ public class ShowIngredientsService extends IntentService {
     public static void startActionUpdateIngredientsWidget(Context context, String text){
         Intent intent = new Intent(context, ShowIngredientsService.class);
         intent.setAction(ACTION_UPDATE_INGREDIENTS_WIDGET);
-        intent.putExtra("test", text);
+        intent.putExtra(MainActivity.TEXT_ID, text);
         context.startService(intent);
     }
 
@@ -27,14 +29,13 @@ public class ShowIngredientsService extends IntentService {
         if(intent != null){
             final String action = intent.getAction();
             if(ACTION_UPDATE_INGREDIENTS_WIDGET.equals(action)){
-                String text = intent.getStringExtra("test");
+                String text = intent.getStringExtra(MainActivity.TEXT_ID);
                 handleActionUpdateIngredientsWidget(text);
             }
         }
     }
 
     private void handleActionUpdateIngredientsWidget(String text){
-        Log.e("TAG", text);
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, IngredientsWidgetProvider.class));
 

@@ -22,7 +22,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     private Context mContext;
     private Recipe[] recipes = new Recipe[0];
     private LayoutInflater mInflater;
-    //private ItemClickListener mClickListener;
 
     public RecipeRecyclerViewAdapter(Context context, Recipe[] recipes){
         this.mInflater = LayoutInflater.from(context);
@@ -53,7 +52,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
                 b.putParcelable(MainActivity.RECIPE_ID, recipes[position]);
 
                 Intent intent = new Intent(mContext, DetailActivity.class);
-                intent.putExtra("bundle", b);
+                intent.putExtra(MainActivity.BUNDLE_ID, b);
                 mContext.startActivity(intent);
             }
         });

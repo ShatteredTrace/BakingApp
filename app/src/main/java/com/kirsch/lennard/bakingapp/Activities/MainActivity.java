@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     public static final String RECIPE_SOURCE = "http://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
     public static final String RECIPE_ID = "recipeID";
     public static RequestQueue mRequestQueue;
+    public static final String BUNDLE_ID = "bunde";
+    public static final String TEXT_ID = "text";
 
     static RecipeRecyclerViewAdapter mAdapter;
     Recipe[] recipes;
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
 
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(this, "test", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, TEXT_ID, Toast.LENGTH_LONG).show();
         Bundle b = new Bundle();
         b.putParcelable(RECIPE_ID, recipes[position]);
 
@@ -88,9 +90,9 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
 
 /*
 COMMON PROJECT REQUIREMENTS
-TODO #1 App is written solely in the Java Programming Language
+COMPLETED #1 App is written solely in the Java Programming Language
 
-TODO #2 App utilizes stable release versions of all libraries, Gradle, and Android Studio.
+COMPLETED #2 App utilizes stable release versions of all libraries, Gradle, and Android Studio.
 
 GENERAL APP USAGE
 COMPLETED #3 App should display recipes from provided network resource.
@@ -99,7 +101,7 @@ COMPLETED #4 App should allow navigation between individual recipes and recipe s
 
 COMPLETED #5 App uses RecyclerView and can handle recipe steps that include videos or images.
 
-TODO #6 App conforms to common standards found in the Android Nanodegree General Project Guidelines.
+COMPLETED #6 App conforms to common standards found in the Android Nanodegree General Project Guidelines.
 
 COMPONENTS AND LIBRARIES
 COMPLETED #7 Application uses Master Detail Flow to display recipe steps and navigation between them.
@@ -110,15 +112,15 @@ COMPLETED #9 Application properly initializes and releases video assets when app
 
 COMPLETED #10 Application should properly retrieve media assets from the provided network links. It should properly handle network requests.
 
-TODO #11 Application makes use of Espresso to test aspects of the UI.
+COMPLETED #11 Application makes use of Espresso to test aspects of the UI.
 
 COMPLETED #12 Application sensibly utilizes a third-party library to enhance the app's features. That could be helper library to interface with ContentProviders
 if you choose to store the recipes, a UI binding library to avoid writing findViewById a bunch of times, or something similar.
 
 HOMESCREEN WIDGET
-TODO #13 Application has a companion homescreen widget.
+COMPLETED #13 Application has a companion homescreen widget.
 
-TODO #14 Widget displays ingredient list for desired recipe.
+COMPLETED #14 Widget displays ingredient list for desired recipe.
  */
 
 /*

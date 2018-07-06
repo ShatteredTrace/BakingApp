@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kirsch.lennard.bakingapp.Activities.DetailActivity;
+import com.kirsch.lennard.bakingapp.Activities.MainActivity;
 import com.kirsch.lennard.bakingapp.Activities.RecipeStepDetailActivity;
 import com.kirsch.lennard.bakingapp.Fragments.RecipeDetailFragment;
 import com.kirsch.lennard.bakingapp.Fragments.RecipeListFragment;
@@ -54,12 +55,12 @@ public class RecipeListRecyclerViewAdapter extends RecyclerView.Adapter<RecipeLi
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         if(position== 0){
-            String ingredients = "You will need: \n";
+            String ingredients = mContext.getResources().getString(R.string.ingredients_start) + " \n";
             for (Ingredient i : recipe.ingredients){
                 if(i.quantity == Math.ceil(i.quantity)){
-                    ingredients += "- " + (int) i.quantity + " " +  i.measure + " of "+ i.ingredient + "\n";
+                    ingredients += "- " + (int) i.quantity + " " +  i.measure + " " + mContext.getResources().getString(R.string.of) +" " + i.ingredient + "\n";
                 } else {
-                    ingredients += i.quantity + " " + i.measure + " of " + i.ingredient + "\n";
+                    ingredients += i.quantity + " " + i.measure + " " + mContext.getResources().getString(R.string.of) + " " + i.ingredient + "\n";
                 }
             }
             holder.recipeStepsTextView.setBackgroundResource(android.R.color.transparent);
@@ -82,7 +83,7 @@ public class RecipeListRecyclerViewAdapter extends RecyclerView.Adapter<RecipeLi
                         b.putParcelable(RECIPE_STEP_ID, recipeSteps.get(position - 1));
 
                         Intent intent = new Intent(mContext, RecipeStepDetailActivity.class);
-                        intent.putExtra("bundle", b);
+                        intent.putExtra(MainActivity.BUNDLE_ID, b);
                         mContext.startActivity(intent);
                     }
                 }

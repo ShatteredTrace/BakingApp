@@ -20,7 +20,7 @@ public class RecipeStepDetailActivity extends AppCompatActivity {
 
         if(savedInstanceState == null){
             Intent intent = getIntent();
-            Bundle b = intent.getBundleExtra("bundle");
+            Bundle b = intent.getBundleExtra(MainActivity.BUNDLE_ID);
             recipeStep = b.getParcelable(RecipeListRecyclerViewAdapter.RECIPE_STEP_ID);
 
             RecipeDetailFragment fragment = new RecipeDetailFragment();

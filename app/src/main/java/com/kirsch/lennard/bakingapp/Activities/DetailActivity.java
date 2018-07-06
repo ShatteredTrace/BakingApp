@@ -25,7 +25,7 @@ public class DetailActivity extends AppCompatActivity{
 
             if (savedInstanceState == null) {
                 Intent intent = getIntent();
-                Bundle b = intent.getBundleExtra("bundle");
+                Bundle b = intent.getBundleExtra(MainActivity.BUNDLE_ID);
                 recipe = b.getParcelable(MainActivity.RECIPE_ID);
                 FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -43,7 +43,7 @@ public class DetailActivity extends AppCompatActivity{
         }
         else if (savedInstanceState == null) {
             Intent intent = getIntent();
-            Bundle b = intent.getBundleExtra("bundle");
+            Bundle b = intent.getBundleExtra(MainActivity.BUNDLE_ID);
             recipe = b.getParcelable(MainActivity.RECIPE_ID);
             FragmentManager fragmentManager = getSupportFragmentManager();
 

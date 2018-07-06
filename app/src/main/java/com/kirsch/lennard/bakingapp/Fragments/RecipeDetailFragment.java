@@ -140,7 +140,7 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
 
             mExoPlayer.addListener(this);
 
-            String userAgent = Util.getUserAgent(mContext, "BakingApp");
+            String userAgent = Util.getUserAgent(mContext, getResources().getString(R.string.AppName));
             Uri mediaUri = Uri.parse(recipeStep.getVideoURL());
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     mContext, userAgent), new DefaultExtractorsFactory(), null, null);
@@ -244,10 +244,10 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
         String play_pause;
         if(state.getState() == PlaybackStateCompat.STATE_PLAYING){
             icon = R.drawable.exo_controls_pause;
-            play_pause = "Pause";
+            play_pause = getResources().getString(R.string.Pause);
         } else {
             icon = R.drawable.exo_controls_play;
-            play_pause = "Play";
+            play_pause = getResources().getString(R.string.Play);
         }
 
         NotificationCompat.Action playPauseAction = new NotificationCompat.Action(icon, play_pause,
@@ -259,8 +259,8 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
         Intent intent = new Intent(mContext, DetailActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this.getContext(), 0, intent, 0);
 
-        builder.setContentTitle("Have Fun Baking")
-                .setContentText("Press play to continue the Video")
+        builder.setContentTitle(getResources().getString(R.string.have_fun))
+                .setContentText(getResources().getString(R.string.press_play))
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.placeholder)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)

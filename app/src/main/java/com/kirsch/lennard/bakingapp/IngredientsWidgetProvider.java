@@ -28,7 +28,7 @@ public class IngredientsWidgetProvider extends AppWidgetProvider {
         }
 
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("test", text);
+        intent.putExtra(MainActivity.TEXT_ID, text);
         PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent,0);
 
         views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
@@ -40,7 +40,7 @@ public class IngredientsWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
-        ShowIngredientsService.startActionUpdateIngredientsWidget(context, "Ingredients");
+        ShowIngredientsService.startActionUpdateIngredientsWidget(context, context.getString(R.string.ingredients));
     }
 
     public static void updateIngredientsWidgets(Context context, AppWidgetManager appWidgetManager, String text, int[] appWidgetIds){
