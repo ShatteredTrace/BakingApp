@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     private void setUpUI(){
         ButterKnife.bind(this);
         int numberOfColumns = 1;
+        if(getResources().getBoolean(R.bool.isTablet)){
+            numberOfColumns = 3;
+        }
         recyclerView.setAdapter(null);
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
         getRecipes(this);
@@ -104,7 +107,7 @@ COMPLETED #5 App uses RecyclerView and can handle recipe steps that include vide
 TODO #6 App conforms to common standards found in the Android Nanodegree General Project Guidelines.
 
 COMPONENTS AND LIBRARIES
-TODO #7 Application uses Master Detail Flow to display recipe steps and navigation between them.
+COMPLETED #7 Application uses Master Detail Flow to display recipe steps and navigation between them.
 
 COMPLETED #8 Application uses Exoplayer to display videos.
 

@@ -1,5 +1,7 @@
 package com.kirsch.lennard.bakingapp.Adapters;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.kirsch.lennard.bakingapp.Activities.DetailActivity;
 import com.kirsch.lennard.bakingapp.Activities.RecipeStepDetailActivity;
+import com.kirsch.lennard.bakingapp.Fragments.RecipeDetailFragment;
+import com.kirsch.lennard.bakingapp.Fragments.RecipeListFragment;
 import com.kirsch.lennard.bakingapp.Objects.Ingredient;
 import com.kirsch.lennard.bakingapp.Objects.Recipe;
 import com.kirsch.lennard.bakingapp.Objects.RecipeStep;
@@ -26,12 +31,16 @@ public class RecipeListRecyclerViewAdapter extends RecyclerView.Adapter<RecipeLi
     private ArrayList<RecipeStep> recipeSteps;
     private LayoutInflater mInflater;
     private Context mContext;
+    private boolean twoPane;
+    RecipeListFragment mRecipeListFragment;
 
-    public RecipeListRecyclerViewAdapter(Context context, ArrayList<RecipeStep> recipeSteps, Recipe recipe){
+    public RecipeListRecyclerViewAdapter(Context context, ArrayList<RecipeStep> recipeSteps, Recipe recipe, boolean twoPane, RecipeListFragment homeFragment){
         this.mInflater = LayoutInflater.from(context);
         this.recipeSteps = recipeSteps;
         this.recipe = recipe;
         this.mContext = context;
+        this.twoPane = twoPane;
+        this.mRecipeListFragment = homeFragment;
     }
 
     @NonNull
@@ -42,8 +51,7 @@ public class RecipeListRecyclerViewAdapter extends RecyclerView.Adapter<RecipeLi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         if(position== 0){
             String ingredients = "You will need: \n";
             for (Ingredient i : recipe.ingredients){
@@ -64,12 +72,17 @@ public class RecipeListRecyclerViewAdapter extends RecyclerView.Adapter<RecipeLi
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Bundle b = new Bundle();
-                    b.putParcelable(RECIPE_STEP_ID, recipeSteps.get(position - 1));
+                    if(twoPane){
+                        mRecipeListFragment.updateFlow(recipeSteps.get(position - 1));
 
-                    Intent intent = new Intent(mContext, RecipeStepDetailActivity.class);
-                    intent.putExtra("bundle", b);
-                    mContext.startActivity(intent);
+                    }else {
+                        Bundle b = new Bundle();
+                        b.putParcelable(RECIPE_STEP_ID, recipeSteps.get(position - 1));
+
+                        Intent intent = new Intent(mContext, RecipeStepDetailActivity.class);
+                        intent.putExtra("bundle", b);
+                        mContext.startActivity(intent);
+                    }
                 }
             });
         }
@@ -91,5 +104,9 @@ public class RecipeListRecyclerViewAdapter extends RecyclerView.Adapter<RecipeLi
 
     public RecipeStep getItem(int id){
         return recipeSteps.get(id);
+    }
+
+    public void setTwoPane(boolean twoPane) {
+        this.twoPane = twoPane;
     }
 }

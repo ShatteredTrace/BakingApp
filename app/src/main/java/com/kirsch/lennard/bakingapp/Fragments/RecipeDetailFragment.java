@@ -54,6 +54,7 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
     private final String STATE_RESUME_POSITION = "resumePosition";
     private final String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
     public static final String RECIPESTEP_ID = "recipeStepID";
+    private final String TWOPANE_ID = "twoPaneID";
     private static final String TAG = RecipeDetailFragment.class.getSimpleName();
 
     private RecipeStep recipeStep;
@@ -68,6 +69,7 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
     private long mResumePosition;
     private Dialog mFullScreenDialog;
     private FrameLayout mExoFrame;
+    public boolean twoPane = false;
 
     //Mandatory constructor for instantiating the fragment
     public RecipeDetailFragment(){
@@ -86,6 +88,7 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
             mResumeWindow = savedInstanceState.getInt(STATE_RESUME_WINDOW);
             mResumePosition = savedInstanceState.getLong(STATE_RESUME_POSITION);
             mExoPlayerFullscreen = savedInstanceState.getBoolean(STATE_PLAYER_FULLSCREEN);
+            twoPane = savedInstanceState.getBoolean(TWOPANE_ID);
         }
 
         mContext = getContext();
@@ -187,6 +190,7 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
         outState.putInt(STATE_RESUME_WINDOW, mResumeWindow);
         outState.putLong(STATE_RESUME_POSITION, mResumePosition);
         outState.putBoolean(STATE_PLAYER_FULLSCREEN, mExoPlayerFullscreen);
+        outState.putBoolean(TWOPANE_ID, twoPane);
     }
 
     public RecipeStep getRecipeStep() {
@@ -274,15 +278,20 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
-            initFullscreenDialog();
-            openFullscreenDialog();
-            initializeMediaSession();
-            initializePlayer();
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-            closeFullScreenDialog();
-            initializeMediaSession();
-            initializePlayer();
+        if(!twoPane) {
+            if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                initFullscreenDialog();
+                openFullscreenDialog();
+                initializeMediaSession();
+                initializePlayer();
+            } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                if(mExoPlayerFullscreen) {
+
+                    closeFullScreenDialog();
+                    initializeMediaSession();
+                    initializePlayer();
+                }
+            }
         }
     }
 
@@ -322,5 +331,9 @@ public class RecipeDetailFragment extends Fragment implements ExoPlayer.EventLis
         public void onReceive(Context context, Intent intent) {
             MediaButtonReceiver.handleIntent(mMediaSession, intent);
         }
+    }
+
+    public void setTwoPane(boolean twoPane) {
+        this.twoPane = twoPane;
     }
 }
