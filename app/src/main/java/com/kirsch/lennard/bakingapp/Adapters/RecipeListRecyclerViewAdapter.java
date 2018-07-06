@@ -21,6 +21,7 @@ import com.kirsch.lennard.bakingapp.Objects.Ingredient;
 import com.kirsch.lennard.bakingapp.Objects.Recipe;
 import com.kirsch.lennard.bakingapp.Objects.RecipeStep;
 import com.kirsch.lennard.bakingapp.R;
+import com.kirsch.lennard.bakingapp.ShowIngredientsService;
 
 import java.util.ArrayList;
 
@@ -65,6 +66,7 @@ public class RecipeListRecyclerViewAdapter extends RecyclerView.Adapter<RecipeLi
             holder.recipeStepsTextView.setGravity(Gravity.START);
 
             holder.recipeStepsTextView.setText(ingredients);
+            ShowIngredientsService.startActionUpdateIngredientsWidget(mContext, ingredients);
         }
         else {
             holder.recipeStepsTextView.setText(recipeSteps.get(position - 1).shortDescription);
