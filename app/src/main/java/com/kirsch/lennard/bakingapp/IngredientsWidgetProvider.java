@@ -23,7 +23,6 @@ public class IngredientsWidgetProvider extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ingredients_widget_provider);
         if(text != null && !text.equals("")) {
             views.setTextViewText(R.id.appwidget_text, text);
-            Log.i("LOG", text);
         } else {
             views.setTextViewText(R.id.appwidget_text, widgetText);
         }
@@ -41,7 +40,7 @@ public class IngredientsWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
-        ShowIngredientsService.startActionUpdateIngredientsWidget(context, "nope");
+        ShowIngredientsService.startActionUpdateIngredientsWidget(context, "Ingredients");
     }
 
     public static void updateIngredientsWidgets(Context context, AppWidgetManager appWidgetManager, String text, int[] appWidgetIds){

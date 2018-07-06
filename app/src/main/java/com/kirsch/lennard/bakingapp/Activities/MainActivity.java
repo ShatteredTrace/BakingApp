@@ -71,20 +71,15 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
                     @Override
                     public void onResponse(Recipe[] response) {
                         recipes = response;
-                        Log.i("LOG","Now setting up adapter");
 
                         mAdapter = new RecipeRecyclerViewAdapter(context, recipes);
-                        //Adapter.setmClickListener(MainActivity.this);
                         recyclerView.setAdapter(mAdapter);
-                        Log.i("LOG","Done");
-                       // Toast.makeText(context, "Adapter should be full", Toast.LENGTH_SHORT).show();
                     }
 
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 recipes = new Recipe[0];
-                //Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
         mRequestQueue.add(recipesRequest);
